@@ -1,0 +1,48 @@
+<!--DOCTYPE html-->
+
+<html>
+<title>Prog Geddy</title>
+
+<head>
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+
+	<!-- load jquery and lastFm libraries -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/validateMusicSearch.js"></script>
+</head>
+
+<body>
+   <div class='header'>
+        <h2>Eclisiast</h2>
+		<div class='links'>
+			<div class='interests'>My Interests:</div> 
+			<br>
+			<a href="http://www.goodreads.com/user/show/5886579-geddy-israel" target="_blank">Books</a> |
+			<a href="http://www.last.fm/user/Eclisiast" target="_blank">Music</a> |
+			<a href="dnd.html" target="_blank">D&D</a> |
+			<a href="http://steamcommunity.com/profiles/76561198012946856" target="_blank">Steam</a> |
+			<a href="http://www.anime-planet.com/users/Eclisiast" target="_blank">Anime</a> |
+			<a href="http://www.cs.mtsu.edu/~crb3p/" target="_blank">Crawl</a>
+		</div>
+    </div>
+
+	<div style="text-align:center;">
+		<br><br>
+		<div id="searchMessage"></div>
+		<form id="musicSearch">
+  			Music Search: <input type="text" id="userInput"><br>
+  			<input type="button" value="Submit" onclick="validateForm()">
+		</form>
+		
+		<div id="lastFMDataFormat">
+			<div id="lastFMArtistResults"></div>
+			<div id="lastFMAlbumResults"></div>
+			<div id="lastFMTrackResults"></div>
+		</div>	
+			
+		<br><br>
+
+		<a href="GeddyVsChris.html" target="_blank"> Who Listens to More Rush?</a>
+	</div>
+</body>
+</html>
