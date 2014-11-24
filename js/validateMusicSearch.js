@@ -8,9 +8,24 @@ function log(message)
 	console.log(message);
 }
 
+$('#musicSearch').submit(function() {
+	validateForm();
+	return false;
+});
+
+// Make sure the DOM is ready before checking the event handler.
+var event = document.getElementById('userInput');
+if(event) {
+	event.addEventListener('keypress', function(event) {
+		if (event.keyCode == 13) {
+			validateForm();
+		}
+	});
+}
+
 /* Validates that the user has provided text to search. And then queries API's for results */
 function validateForm()
-{
+{	
 	// Grab the user's input.
 	var userInput = $('#userInput').val();
 	
@@ -70,7 +85,7 @@ function getLastFMArtistJSON(url)
 {
 	$.ajax({
 		url:url,
-		type:'GET',
+		type:'POST',
 		dataType: 'jsonp',
 		success:successArtistCallBack,
 		failure:failureArtistCallBack
@@ -82,7 +97,7 @@ function getLastFMAlbumJSON(url)
 {
 	$.ajax({
 		url:url,
-		type:'GET',
+		type:'POST',
 		dataType: 'jsonp',
 		success:successAlbumCallBack,
 		failure:failureAlbumCallBack
@@ -94,7 +109,7 @@ function getLastFMTrackJSON(url)
 {
 	$.ajax({
 		url:url,
-		type:'GET',
+		type:'POST',
 		dataType: 'jsonp',
 		success:successTrackCallBack,
 		failure:failureTrackCallBack
@@ -114,6 +129,10 @@ function successArtistCallBack(object)
 	
 	// Get the number of artists returned.
 	numberOfArtistsReturned = object.results['opensearch:totalResults'];
+	
+	if(numberOfArtistsReturned > lastFMSearchLimit) {
+		numberOfArtistsReturned = lastFMSearchLimit;
+	}
 	
 	$('#lastFMArtistResults').append('<b>Artist Results:</b><br>')
 	
@@ -164,6 +183,10 @@ function successAlbumCallBack(object)
 	// Get the number of artists returned.
 	numberOfAlbumsReturned = object.results['opensearch:totalResults'];
 	
+	if(numberOfAlbumsReturned > lastFMSearchLimit) {
+		numberOfAlbumsReturned = lastFMSearchLimit;
+	}
+	
 	$('#lastFMAlbumResults').append('<b>Album Results:</b><br>')
 	
 	// Check to make sure there were albums in the results.
@@ -212,6 +235,10 @@ function successTrackCallBack(object)
 	
 	// Get the number of tracks returned.
 	numberOfTracksReturned = object.results['opensearch:totalResults'];
+	
+	if(numberOfTracksReturned > lastFMSearchLimit) {
+		numberOfTracksReturned = lastFMSearchLimit;
+	}
 	
 	$('#lastFMTrackResults').append('<b>Track Results:</b><br>')
 	
@@ -265,4 +292,3 @@ function failureTrackCallBack()
 {
 	log('The attempt to request TRACK information from Last.fm failed.!');
 }
-
