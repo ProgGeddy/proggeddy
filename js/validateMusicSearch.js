@@ -3,35 +3,28 @@ var lastFMKey = '663a3ee09f7ef3aad14740b3ac162ca0';
 var lastFMSearchLimit = 5;
 
 // Call this function to send the parameter to the console for debugging.
-function log(message)
-{
+function log(message) {
 	console.log(message);
 }
 
-$('#musicSearch').submit(function() {
-	validateForm();
-	return false;
-});
+//$('#musicSearch').submit(function () {
+//	validateForm();
+//	return false;
+//});
 
 // Make sure the DOM is ready before checking the event handler.
-var event = document.getElementById('userInput');
-if(event) {
-	event.addEventListener('keypress', function(event) {
-		if (event.keyCode == 13) {
-			validateForm();
-		}
-	});
-}
+$('#musicSearch').addEventListener("keydown", function (this) {
+	if (this.keyCode === 13) {
+		validateForm();
+	}},false);
 
 /* Validates that the user has provided text to search. And then queries API's for results */
-function validateForm()
-{	
+function validateForm() {	
 	// Grab the user's input.
 	var userInput = $('#userInput').val();
 	
 	// Check to see if the user's input is null.
-	if (userInput==null || userInput=="")
-  	{
+	if (userInput==null || userInput=="") {
   		$('#searchMessage').html('Must specify an artist/album/track to search.')//.css('color','red');
 		$('#userInput').css('background-color', 'FFB2B2');
 
@@ -40,8 +33,7 @@ function validateForm()
 		$('#lastFMAlbumResults').empty();
 		$('#lastFMTrackResults').empty();
   	}
-	else
-	{
+	else {
 		// Clear the search message from the screen. 
 		$('#searchMessage').empty();
 		$('#userInput').css('background-color', 'FFFFFF');
@@ -63,8 +55,7 @@ function validateForm()
 }
 
 // Prepare the urls to query LastFM for Artist/Album/Track.
-function getLastFMInfo(userInput)
-{
+function getLastFMInfo(userInput) {
 	var url;
 
 	url = 'http://ws.audioscrobbler.com/2.0/?method=artist.search&artist='+userInput+'&api_key='+lastFMKey+'&limit='+lastFMSearchLimit+'&format=json';
@@ -81,8 +72,7 @@ function getLastFMInfo(userInput)
 }
 
 // Get the artist json from LastFM.
-function getLastFMArtistJSON(url) 
-{
+function getLastFMArtistJSON(url) {
 	$.ajax({
 		url:url,
 		type:'POST',
@@ -93,8 +83,7 @@ function getLastFMArtistJSON(url)
 }
 
 // Get the album json from LastFM.
-function getLastFMAlbumJSON(url) 
-{
+function getLastFMAlbumJSON(url) {
 	$.ajax({
 		url:url,
 		type:'POST',
@@ -105,8 +94,7 @@ function getLastFMAlbumJSON(url)
 }
 
 // Get the track json from LastFM.
-function getLastFMTrackJSON(url) 
-{
+function getLastFMTrackJSON(url) {
 	$.ajax({
 		url:url,
 		type:'POST',
@@ -117,8 +105,7 @@ function getLastFMTrackJSON(url)
 }
 
 // This function is called if the AJAX request for Artist information from last.fm succeeds.
-function successArtistCallBack(object)
-{
+function successArtistCallBack(object) {
 	// log(object);  For Debugging
 	
 	// Local variables.
@@ -137,20 +124,16 @@ function successArtistCallBack(object)
 	$('#lastFMArtistResults').append('<b>Artist Results:</b><br>')
 	
 	// Check to make sure there were artists in the results.
-	if(numberOfArtistsReturned > 0)
-	{
+	if(numberOfArtistsReturned > 0) {
 		// Get artist information for the first 5 artists returned from Last.fm.
-		for(var i = 0; i < numberOfArtistsReturned; i++)
-		{
+		for(var i = 0; i < numberOfArtistsReturned; i++) {
 			// If I only got one result, the result isn't an array so I can't access it with the [i] subscript.
-			if(numberOfArtistsReturned == 1)
-			{
+			if(numberOfArtistsReturned == 1) {
 				artistName = object.results.artistmatches.artist.name;
 				log(artistName);
 				artistUrl = object.results.artistmatches.artist.url;
 			}
-			else
-			{
+			else {
 				artistName = object.results.artistmatches.artist[i].name;
 				log(artistName);
 				artistUrl = object.results.artistmatches.artist[i].url;
@@ -170,8 +153,7 @@ function successArtistCallBack(object)
 }
 
 // This function is called if the AJAX request for Album information from last.fm succeeds.
-function successAlbumCallBack(object)
-{
+function successAlbumCallBack(object) {
 	log(object);  //For Debugging
 	
 	// Local variables.
@@ -190,20 +172,16 @@ function successAlbumCallBack(object)
 	$('#lastFMAlbumResults').append('<b>Album Results:</b><br>')
 	
 	// Check to make sure there were albums in the results.
-	if(numberOfAlbumsReturned > 0)
-	{
+	if(numberOfAlbumsReturned > 0) {
 		// Get album information for the first 5 albums returned from Last.fm.
-		for(var i = 0; i < numberOfAlbumsReturned; i++)
-		{
+		for(var i = 0; i < numberOfAlbumsReturned; i++) {
 			// If I only got one result, the result isn't an array so I can't access it with the [i] subscript.
-			if(numberOfAlbumsReturned == 1)
-			{
+			if(numberOfAlbumsReturned == 1) {
 				albumName = object.results.albummatches.album.name;
 				log(albumName);
 				albumUrl = object.results.albummatches.album.url;
 			}
-			else
-			{
+			else {
 				albumName = object.results.albummatches.album[i].name;
 				log(albumName);
 				albumUrl = object.results.albummatches.album[i].url;
@@ -216,15 +194,13 @@ function successAlbumCallBack(object)
 			$('#lastFMAlbumResults').append(' <br> ');
 		}
 	}
-	else
-	{
+	else {
 		$('#lastFMAlbumResults').append('No Album By That Name');
 	}
 }
 
 // This function is called if the AJAX request for Track information from last.fm succeeds.
-function successTrackCallBack(object)
-{
+function successTrackCallBack(object) {
 	log(object);  //For Debugging
 	
 	// Local variables.
@@ -243,20 +219,16 @@ function successTrackCallBack(object)
 	$('#lastFMTrackResults').append('<b>Track Results:</b><br>')
 	
 	// Check to make sure there were tracks in the results.
-	if(numberOfTracksReturned > 0)
-	{
+	if(numberOfTracksReturned > 0) {
 		// Get track information for the first 5 tracks returned from Last.fm.
-		for(var i = 0; i < numberOfTracksReturned; i++)
-		{
+		for(var i = 0; i < numberOfTracksReturned; i++) {
 			// If I only got one result, the result isn't an array so I can't access it with the [i] subscript.
-			if(numberOfTracksReturned == 1)
-			{
+			if(numberOfTracksReturned == 1) {
 				trackName = object.results.trackmatches.track.name;
 				log(trackName);
 				trackUrl = object.results.trackmatches.track.url;
 			}
-			else
-			{
+			else {
 				trackName = object.results.trackmatches.track[i].name;
 				log(trackName);
 				trackUrl = object.results.trackmatches.track[i].url;
@@ -269,26 +241,22 @@ function successTrackCallBack(object)
 			$('#lastFMTrackResults').append(' <br> ');
 		}
 	}
-	else
-	{
+	else {
 		$('#lastFMTrackResults').append('No Track By That Name');
 	}
 }
 
 // This function is called if the ajax request for artist information from last.fm fails.
-function failureArtistCallBack()
-{
+function failureArtistCallBack() {
 	log('The attempt to request ARTIST information from Last.fm failed.!');
 }
 
 // This function is called if the ajax request for album information from last.fm fails.
-function failureAlbumCallBack()
-{
+function failureAlbumCallBack() {
 	log('The attempt to request ALBUM information from Last.fm failed.!');
 }
 
 // This function is called if the ajax request for track information from last.fm fails.
-function failureTrackCallBack()
-{
+function failureTrackCallBack() {
 	log('The attempt to request TRACK information from Last.fm failed.!');
 }
