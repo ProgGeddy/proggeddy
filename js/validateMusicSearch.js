@@ -7,19 +7,20 @@ function log(message) {
 	console.log(message);
 }
 
-//$('#musicSearch').submit(function () {
-//	validateForm();
-//	return false;
-//});
+// Event listener for ENTER/RETURN on text field. 
+$(document).ready(function() {
+	document.getElementById('userInput').addEventListener("keypress", CheckForEnterOnMusicSearch, false);
+});
 
-// Make sure the DOM is ready before checking the event handler.
-$('#musicSearch').addEventListener("keydown", function (this) {
-	if (this.keyCode === 13) {
+// Check for ENTER/RETURN keypress to initiate music search.
+function CheckForEnterOnMusicSearch(event) {
+	if (event.keyCode === 13) {
 		validateForm();
-	}},false);
+	}
+}
 
-/* Validates that the user has provided text to search. And then queries API's for results */
-function validateForm() {	
+// Validates that the user has provided text to search. And then queries API's for results.
+function validateForm() {
 	// Grab the user's input.
 	var userInput = $('#userInput').val();
 	
