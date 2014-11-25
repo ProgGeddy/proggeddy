@@ -9,7 +9,7 @@ function log(message) {
 
 // Event listener for ENTER/RETURN on text field. 
 $(document).ready(function() {
-	document.getElementById('userInput').addEventListener("keypress", CheckForEnterOnMusicSearch, false);
+	$("#userInput").keypress(CheckForEnterOnMusicSearch);
 });
 
 // Check for ENTER/RETURN keypress to initiate music search.
