@@ -1,13 +1,16 @@
-<!--DOCTYPE html-->
+<!DOCTYPE html>
 
 <html>
 <title>Prog Geddy</title>
 
 <head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	
 	<link href="css/main.css" rel="stylesheet" type="text/css" />
 
 	<!-- load jquery and lastFm libraries -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+    	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 	<script type="text/javascript" src="js/validateMusicSearch.js"></script>
 </head>
 
@@ -27,18 +30,22 @@
 	<div style="text-align:center;">
 		<br><br>
 		<div id="searchMessage"></div>
-			Music Search: <input type="text" name="userInput" id="userInput"/>
-			<input type="button" value="Submit" onclick="validateForm()"/>
-			<br><font size="2"><i>Search powered by <a href="http://www.last.fm/home" target="_blank">Last.fm</a></i></font>
+		<form id="musicSearch">
+			<label for="userInput"> Music Search: </label>
+			<input type="text" name="userInput" id="userInput">
+			<input type="button" value="Submit" onclick="validateForm()">
+		</form>
 		
 		<div id="lastFMDataFormat">
 			<div id="lastFMArtistResults"></div>
 			<div id="lastFMAlbumResults"></div>
 			<div id="lastFMTrackResults"></div>
-		</div>	
+		</div>
+		
+		<div id="lastFMSearchInfo"> </div>
 			
 		<br><br>
-
+		
 		<a href="GeddyVsChris.html" target="_blank"> Who Listens to More Rush?</a>
 	</div>
 </body>

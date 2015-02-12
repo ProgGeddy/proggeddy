@@ -12,9 +12,10 @@ $(document).ready(function() {
 	$("#userInput").keypress(CheckForEnterOnMusicSearch);
 });
 
-// Check for ENTER/RETURN keypress to initiate music search.
+// Check for ENTER/RETURN key press to initiate music search.
 function CheckForEnterOnMusicSearch(event) {
 	if (event.keyCode === 13) {
+		event.preventDefault();
 		validateForm();
 	}
 }
@@ -49,9 +50,6 @@ function validateForm() {
 		
 		// Get Last.fm data for the user's input.
 		getLastFMInfo(userInput);
-
-		// Get GrooveShark data for the user's input.
-		//getGrooveSharkInfo(userInput);
 	}
 }
 
@@ -106,9 +104,7 @@ function getLastFMTrackJSON(url) {
 }
 
 // This function is called if the AJAX request for Artist information from last.fm succeeds.
-function successArtistCallBack(object) {
-	// log(object);  For Debugging
-	
+function successArtistCallBack(object) {	
 	// Local variables.
 	var artistName;
 	var artistUrl;
@@ -118,6 +114,7 @@ function successArtistCallBack(object) {
 	// Get the number of artists returned.
 	numberOfArtistsReturned = object.results['opensearch:totalResults'];
 	
+	// We're only interested in the first (lastFMSearchLimit) number of items returned.
 	if(numberOfArtistsReturned > lastFMSearchLimit) {
 		numberOfArtistsReturned = lastFMSearchLimit;
 	}
@@ -131,19 +128,22 @@ function successArtistCallBack(object) {
 			// If I only got one result, the result isn't an array so I can't access it with the [i] subscript.
 			if(numberOfArtistsReturned == 1) {
 				artistName = object.results.artistmatches.artist.name;
-				log(artistName);
 				artistUrl = object.results.artistmatches.artist.url;
 			}
 			else {
 				artistName = object.results.artistmatches.artist[i].name;
-				log(artistName);
 				artistUrl = object.results.artistmatches.artist[i].url;
 			}
 			
-			//log(artistImage);
-			
 			// Artist links
-			$('<i><a href="'+artistUrl+'" target="_blank">'+artistName+'</a></i>').appendTo($('#lastFMArtistResults'));
+			var artistButton = document.createElement("BUTTON");
+			artistButton.setAttribute("id", "artistButtons");
+			artistButton.innerHTML = artistName;
+			artistButton.setAttribute("onclick", "userClickedLastFMArtistResult("+artistName+")");
+			var artistResults = document.getElementById("lastFMArtistResults");
+			artistResults.appendChild(artistButton);
+			
+			//$('<i><a href="'+artistUrl+'" target="_blank">'+artistName+'</a></i>').appendTo($('#lastFMArtistResults'));
 			$('#lastFMArtistResults').append(' <br> ');
 		}
 	}
@@ -155,8 +155,6 @@ function successArtistCallBack(object) {
 
 // This function is called if the AJAX request for Album information from last.fm succeeds.
 function successAlbumCallBack(object) {
-	log(object);  //For Debugging
-	
 	// Local variables.
 	var albumName;
 	var albumUrl;
@@ -166,6 +164,7 @@ function successAlbumCallBack(object) {
 	// Get the number of artists returned.
 	numberOfAlbumsReturned = object.results['opensearch:totalResults'];
 	
+	// We're only interested in the first (lastFMSearchLimit) number of items returned.
 	if(numberOfAlbumsReturned > lastFMSearchLimit) {
 		numberOfAlbumsReturned = lastFMSearchLimit;
 	}
@@ -179,16 +178,12 @@ function successAlbumCallBack(object) {
 			// If I only got one result, the result isn't an array so I can't access it with the [i] subscript.
 			if(numberOfAlbumsReturned == 1) {
 				albumName = object.results.albummatches.album.name;
-				log(albumName);
 				albumUrl = object.results.albummatches.album.url;
 			}
 			else {
 				albumName = object.results.albummatches.album[i].name;
-				log(albumName);
 				albumUrl = object.results.albummatches.album[i].url;
 			}
-			
-			//log(albumImage);
 			
 			// Album links
 			$('<i><a href="'+albumUrl+'" target="_blank">'+albumName+'</a></i>').appendTo($('#lastFMAlbumResults'));
@@ -202,8 +197,6 @@ function successAlbumCallBack(object) {
 
 // This function is called if the AJAX request for Track information from last.fm succeeds.
 function successTrackCallBack(object) {
-	log(object);  //For Debugging
-	
 	// Local variables.
 	var trackName;
 	var trackUrl;
@@ -213,6 +206,7 @@ function successTrackCallBack(object) {
 	// Get the number of tracks returned.
 	numberOfTracksReturned = object.results['opensearch:totalResults'];
 	
+	// We're only interested in the first (lastFMSearchLimit) number of items returned.
 	if(numberOfTracksReturned > lastFMSearchLimit) {
 		numberOfTracksReturned = lastFMSearchLimit;
 	}
@@ -226,16 +220,12 @@ function successTrackCallBack(object) {
 			// If I only got one result, the result isn't an array so I can't access it with the [i] subscript.
 			if(numberOfTracksReturned == 1) {
 				trackName = object.results.trackmatches.track.name;
-				log(trackName);
 				trackUrl = object.results.trackmatches.track.url;
 			}
 			else {
 				trackName = object.results.trackmatches.track[i].name;
-				log(trackName);
 				trackUrl = object.results.trackmatches.track[i].url;
 			}
-			
-			//log(trackImage);
 			
 			// Track links
 			$('<i><a href="'+trackUrl+'" target="_blank">'+trackName+'</a></i>').appendTo($('#lastFMTrackResults'));
@@ -261,3 +251,35 @@ function failureAlbumCallBack() {
 function failureTrackCallBack() {
 	log('The attempt to request TRACK information from Last.fm failed.!');
 }
+
+// User selected an artist. Pull back some data (picture/bio) to display.
+function userClickedLastFMArtistResult(artist) {
+	var url;
+
+	url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist='+artist+'&api_key='+lastFMKey+'&format=json';
+	log(url);
+	getLastFMArtistJSON(url);
+}
+
+// Get the artist json from LastFM for a specific artist.
+function getLastFMArtistJSON(url) {
+	$.ajax({
+		url:url,
+		type:'POST',
+		dataType: 'jsonp',
+		success:successArtistSelectedCallBack,
+		failure:failureArtistCallBack
+	});
+}
+
+// This function is called if the AJAX request for Artist information from last.fm succeeds.
+function successArtistSelectedCallBack(artist) {
+	//var artistBio = artist.bio.summary
+	//var artistPicture;
+	log('Better');
+	//artistBio.appendTo($('#lastFMSearchInfo'));
+}
+
+
+
+// Query the different APIs for the lastFM result the user selected.
