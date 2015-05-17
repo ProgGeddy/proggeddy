@@ -1,8 +1,8 @@
-// Global Variables
-var lastFMKey = '663a3ee09f7ef3aad14740b3ac162ca0';
-var lastFMSearchLimit = 5;
+// Global Variables 
+var lastFMKey = '663a3ee09f7ef3aad14740b3ac162ca0'; 
+var lastFMSearchLimit = 5; 
 
-// Call this function to send the parameter to the console for debugging.
+// Call this function to send the parameter to the console for debugging. 
 function log(message) {
 	console.log(message);
 }
@@ -12,7 +12,7 @@ $(document).ready(function() {
 	$("#userInput").keypress(CheckForEnterOnMusicSearch);
 });
 
-// Check for ENTER/RETURN key press to initiate music search.
+// Check for ENTER/RETURN key press to initiate music search. 
 function CheckForEnterOnMusicSearch(event) {
 	if (event.keyCode === 13) {
 		event.preventDefault();
@@ -20,7 +20,7 @@ function CheckForEnterOnMusicSearch(event) {
 	}
 }
 
-// Validates that the user has provided text to search. And then queries API's for results.
+// Validates that the user has provided text to search. And then queries API's for results. 
 function validateForm() {
 	// Grab the user's input.
 	var userInput = $('#userInput').val();
@@ -29,14 +29,13 @@ function validateForm() {
 	if (userInput==null || userInput=="") {
   		$('#searchMessage').html('Must specify an artist/album/track to search.')//.css('color','red');
 		$('#userInput').css('background-color', 'FFB2B2');
-
 		// Clear any previous results.
 		$('#lastFMArtistResults').empty();
 		$('#lastFMAlbumResults').empty();
 		$('#lastFMTrackResults').empty();
   	}
 	else {
-		// Clear the search message from the screen. 
+		// Clear the search message from the screen.
 		$('#searchMessage').empty();
 		$('#userInput').css('background-color', 'FFFFFF');
 		
@@ -53,10 +52,9 @@ function validateForm() {
 	}
 }
 
-// Prepare the urls to query LastFM for Artist/Album/Track.
+// Prepare the urls to query LastFM for Artist/Album/Track. 
 function getLastFMInfo(userInput) {
 	var url;
-
 	url = 'http://ws.audioscrobbler.com/2.0/?method=artist.search&artist='+userInput+'&api_key='+lastFMKey+'&limit='+lastFMSearchLimit+'&format=json';
 	log(url);
 	getLastFMArtistJSON(url);
@@ -70,7 +68,7 @@ function getLastFMInfo(userInput) {
 	getLastFMTrackJSON(url);
 }
 
-// Get the artist json from LastFM.
+// Get the artist json from LastFM. 
 function getLastFMArtistJSON(url) {
 	$.ajax({
 		url:url,
@@ -81,7 +79,7 @@ function getLastFMArtistJSON(url) {
 	});
 }
 
-// Get the album json from LastFM.
+// Get the album json from LastFM. 
 function getLastFMAlbumJSON(url) {
 	$.ajax({
 		url:url,
@@ -92,7 +90,7 @@ function getLastFMAlbumJSON(url) {
 	});
 }
 
-// Get the track json from LastFM.
+// Get the track json from LastFM. 
 function getLastFMTrackJSON(url) {
 	$.ajax({
 		url:url,
@@ -103,8 +101,8 @@ function getLastFMTrackJSON(url) {
 	});
 }
 
-// This function is called if the AJAX request for Artist information from last.fm succeeds.
-function successArtistCallBack(object) {	
+// This function is called if the AJAX request for Artist information from last.fm succeeds. 
+function successArtistCallBack(object) {
 	// Local variables.
 	var artistName;
 	var artistUrl;
@@ -135,15 +133,15 @@ function successArtistCallBack(object) {
 				artistUrl = object.results.artistmatches.artist[i].url;
 			}
 			
-			// Artist links
-			var artistButton = document.createElement("BUTTON");
-			artistButton.setAttribute("id", "artistButtons");
-			artistButton.innerHTML = artistName;
-			artistButton.setAttribute("onclick", "userClickedLastFMArtistResult("+artistName+")");
-			var artistResults = document.getElementById("lastFMArtistResults");
-			artistResults.appendChild(artistButton);
+			// Artist buttons
+			$('<button/>', {
+				text: artistName,
+				id: artistName,
+				click: function () { alert('Works!'); }
+			}).appendTo($('#lastFMArtistResults'));
 			
-			//$('<i><a href="'+artistUrl+'" target="_blank">'+artistName+'</a></i>').appendTo($('#lastFMArtistResults'));
+			// Artist links
+			$('<i><a href="'+artistUrl+'" target="_blank">'+artistName+'</a></i>').appendTo($('#lastFMArtistResults'));
 			$('#lastFMArtistResults').append(' <br> ');
 		}
 	}
@@ -153,7 +151,7 @@ function successArtistCallBack(object) {
 	}
 }
 
-// This function is called if the AJAX request for Album information from last.fm succeeds.
+// This function is called if the AJAX request for Album information from last.fm succeeds. 
 function successAlbumCallBack(object) {
 	// Local variables.
 	var albumName;
@@ -185,6 +183,13 @@ function successAlbumCallBack(object) {
 				albumUrl = object.results.albummatches.album[i].url;
 			}
 			
+			// Album buttons
+			$('<button/>', {
+				text: albumName,
+				id: albumName,
+				click: function () { alert('Works!'); }
+			}).appendTo($('#lastFMAlbumResults'));
+
 			// Album links
 			$('<i><a href="'+albumUrl+'" target="_blank">'+albumName+'</a></i>').appendTo($('#lastFMAlbumResults'));
 			$('#lastFMAlbumResults').append(' <br> ');
@@ -195,7 +200,7 @@ function successAlbumCallBack(object) {
 	}
 }
 
-// This function is called if the AJAX request for Track information from last.fm succeeds.
+// This function is called if the AJAX request for Track information from last.fm succeeds. 
 function successTrackCallBack(object) {
 	// Local variables.
 	var trackName;
@@ -226,6 +231,13 @@ function successTrackCallBack(object) {
 				trackName = object.results.trackmatches.track[i].name;
 				trackUrl = object.results.trackmatches.track[i].url;
 			}
+
+			// Track buttons
+			$('<button/>', {
+				text: trackName,
+				id: trackName,
+				click: function () { alert('Works!'); }
+			}).appendTo($('#lastFMTrackResults'));
 			
 			// Track links
 			$('<i><a href="'+trackUrl+'" target="_blank">'+trackName+'</a></i>').appendTo($('#lastFMTrackResults'));
@@ -237,49 +249,17 @@ function successTrackCallBack(object) {
 	}
 }
 
-// This function is called if the ajax request for artist information from last.fm fails.
+// This function is called if the ajax request for artist information from last.fm fails. 
 function failureArtistCallBack() {
 	log('The attempt to request ARTIST information from Last.fm failed.!');
 }
 
-// This function is called if the ajax request for album information from last.fm fails.
+// This function is called if the ajax request for album information from last.fm fails. 
 function failureAlbumCallBack() {
 	log('The attempt to request ALBUM information from Last.fm failed.!');
 }
 
-// This function is called if the ajax request for track information from last.fm fails.
+// This function is called if the ajax request for track information from last.fm fails. 
 function failureTrackCallBack() {
 	log('The attempt to request TRACK information from Last.fm failed.!');
 }
-
-// User selected an artist. Pull back some data (picture/bio) to display.
-function userClickedLastFMArtistResult(artist) {
-	var url;
-
-	url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist='+artist+'&api_key='+lastFMKey+'&format=json';
-	log(url);
-	getLastFMArtistJSON(url);
-}
-
-// Get the artist json from LastFM for a specific artist.
-function getLastFMArtistJSON(url) {
-	$.ajax({
-		url:url,
-		type:'POST',
-		dataType: 'jsonp',
-		success:successArtistSelectedCallBack,
-		failure:failureArtistCallBack
-	});
-}
-
-// This function is called if the AJAX request for Artist information from last.fm succeeds.
-function successArtistSelectedCallBack(artist) {
-	//var artistBio = artist.bio.summary
-	//var artistPicture;
-	log('Better');
-	//artistBio.appendTo($('#lastFMSearchInfo'));
-}
-
-
-
-// Query the different APIs for the lastFM result the user selected.

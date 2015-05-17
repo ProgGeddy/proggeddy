@@ -48,13 +48,21 @@
 a:link, a:visited, a:active {text-decoration:none;}
 a:hover {text-decoration:underline;}
 
-button {
-    background-color: Transparent;
-    background-repeat:no-repeat;
+#artistBu
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+}
+
+#artistButtons:hover {
     border: none;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;
+    background:white;
+    box-shadow: 0px 0px 1px #777;
 }
 
 body {
@@ -137,15 +145,6 @@ color:red;
 	float:left;
 	width:300px;
 	display:inline-block;
-}
-
-#lastFMSearchInfo {
-	margin:0 auto;
-	height:100px;
-	width:900px;
-	padding:2%;
-	font-size:14px;
-	font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
 }
 
 /******************************************* End Last.FM REsults *********************************************/
