@@ -110,7 +110,7 @@ function successArtistCallBack(object) {
 	var numberOfArtistsReturned;
 	
 	// Get the number of artists returned.
-	numberOfArtistsReturned = object.results['opensearch:totalResults'];
+	numberOfArtistsReturned = object.results.artistmatches.artist.length;
 	
 	// We're only interested in the first (lastFMSearchLimit) number of items returned.
 	if(numberOfArtistsReturned > lastFMSearchLimit) {
@@ -160,7 +160,7 @@ function successAlbumCallBack(object) {
 	var numberOfAlbumsReturned;
 	
 	// Get the number of artists returned.
-	numberOfAlbumsReturned = object.results['opensearch:totalResults'];
+	numberOfAlbumsReturned = object.results.albummatches.album.length;
 	
 	// We're only interested in the first (lastFMSearchLimit) number of items returned.
 	if(numberOfAlbumsReturned > lastFMSearchLimit) {
@@ -209,7 +209,7 @@ function successTrackCallBack(object) {
 	var numberOfTracksReturned;
 	
 	// Get the number of tracks returned.
-	numberOfTracksReturned = object.results['opensearch:totalResults'];
+	numberOfTracksReturned = object.results.trackmatches.track.length;
 	
 	// We're only interested in the first (lastFMSearchLimit) number of items returned.
 	if(numberOfTracksReturned > lastFMSearchLimit) {
@@ -263,3 +263,4 @@ function failureAlbumCallBack() {
 function failureTrackCallBack() {
 	log('The attempt to request TRACK information from Last.fm failed.!');
 }
+
