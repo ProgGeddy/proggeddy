@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+<title>Prog Geddy</title>
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+
+	<!-- load jquery and lastFm libraries -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/validateMusicSearch.js"></script>
+	<script type="text/javascript" src="js/lastFM.js"></script>
+</head>
+
+<body>
+   <div class='header'>
+        <h2>Prog Geddy</h2>
+		<div class='links'>
+			<div class='interests'>My Interests:</div> 
+			<br>
+			<a href="http://www.goodreads.com/user/show/5886579-geddy-israel" target="_blank">Books</a> |
+			<a href="http://www.last.fm/user/Eclisiast" target="_blank">Music</a> |
+			<a href="http://steamcommunity.com/profiles/76561198012946856" target="_blank">Steam</a> |
+			<a href="http://www.anime-planet.com/users/Eclisiast" target="_blank">Anime</a>
+		</div>
+    </div>
+
+	<div style="text-align:center;">
+		<br><br>
+		<div id="searchMessage"></div>
+		
+		<form id="musicSearch">
+			<label for="userInput"> Music Search: </label>
+			<input type="text" name="userInput" id="userInput">
+			<input type="button" value="Submit" onclick="ValidateLastFMForm()">
+		</form>
+		Search powered by <a href="http://www.last.fm" target="_blank">Last.fm</a>
+		
+		<div id="lastFMDataFormat">
+			<div id="lastFMArtistResults"></div>
+			<div id="lastFMAlbumResults"></div>
+			<div id="lastFMTrackResults"></div>
+		</div>
+		
+		<div class="lastFMScoreBoard">
+			<div class='scoreBoardHeader'>
+				<span id='scoreBoardHeader'>Geddy vs Chris</span>
+			</div>
+			<div class='data-text'>
+				<div class='geddy-data'>
+					Geddy listened to Rush <br><br>
+					<span id='GeddyPlayCount'></span>
+					<br><br> times last week
+				</div>
+				<div class='chris-data'>
+					Chris listened to Rush <br><br>
+					<span id='ChrisPlayCount'></span>
+					<br><br> times last week
+				</div>
+			</div>
+			<div class='lastFMWinner'>
+				<span id='lastFMWinner'></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
