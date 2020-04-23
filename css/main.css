@@ -1,126 +1,48 @@
 /******************************************* These rules govern the Header/Navigation bar ******************************/
-.header {
-	color:white;					/*Color of text*/
-    height:70px;
-    position:relative;
-    width:100%;						/*Cover the entire width of the screen*/
-    z-index:100;
-	
-	background: -moz-linear-gradient(top, #5B5B5B, #242424);		/*Gradient for Firefox browser*/
-	background: -ms-linear-gradient(top, #5B5B5B, #242424);			/*Gradient for Internet Explorer browser*/
-	background: -webkit-linear-gradient(top, #5B5B5B, #242424);		/*Gradient for Chrome/Safari browsers*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000;
 }
 
-.header h2{
-    font-size:22px;
-    font-weight:normal;
-    left:50%;
-    margin-left:-475px;
-    position:absolute;
-    width:540px;
+li {
+  float: left;
 }
 
-.links{
-	font-size:20px;
-	left:50%;
-	border:none;
-    text-decoration:none;
-    line-height:31px;
-	margin:5px 0 0 50px;
-    position:absolute;
-    top:0;
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
-.interests{
-	font-size:20px;
-	left:50%;
-	border:none;
-    text-decoration:none;
-    line-height:31px;
-	margin:0 0 0 -50px;
-    position:absolute;
-    top:0;
+li a:hover {
+  background-color: #333;
 }
-
-.header a:link, .header a:visited{color:white;}
 
 /******************************************* End of Header/Navigation bar *********************************************/
-a:link, a:visited, a:active {text-decoration:none;}
-a:hover {text-decoration:underline;}
 
 button {
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden;
     outline:none;
+	cursor: pointer;
 }
 
 body {
-    background-color:#E3E3E3;
+	text-align: center;
+    background-color:#fff;
     font:14px/1.3 Arial,sans-serif;
 	margin-left: auto;
     margin-right: auto;
 	margin-top:auto;
 	margin-top:auto;
-}
-
-body a:link, body a:visited {color:black;}
-
-.lastFMScoreBoard {
-    background-color: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    margin: 20px auto;
-    max-width: 1002px;
-    min-height: 450px;
-    min-width: 930px;
-    overflow: visible;
-    padding: 10px;
-    position: relative;
-	font-size:30px;
-}
-
-.scoreBoardHeader {
-	margin-top:15px;
-	margin-bottom:15px;
-}
-
-.data-text div {
-	display:inline-block;
-	background-color:#E3E3E3;
-	height:275px;
-	width:300px;
-	padding:2%;
-	font-size:22px;
-	font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
-}
-
-.geddy-data{
-	float:left;
-	margin:0 0 0 50px;
-}
-
-#GeddyPlayCount {
-	font-weight:bold;
-	font-size:125px;
-	color:green;
-}
-
-.chris-data{
-	float:right;
-	margin:0 50px 0 0;
-}
-
-#ChrisPlayCount {
-	font-weight:bold;
-	font-size:125px;
-	color:blue;
-}
-
-.lastFMWinner{
-	font-weight:bold;
-	margin-top:340px;
 }
 
 /******************************************* Last.FM Search Results *************************************************/
@@ -141,3 +63,39 @@ body a:link, body a:visited {color:black;}
 }
 
 /******************************************* End Last.FM Search Results *********************************************/
+
+/******************************************* Card *******************************************************************/
+
+.card {
+	width: 325px;
+	height: auto;
+	margin: 0 auto;
+	visibility: hidden;
+	text-overflow: hidden;
+	
+	/* Add shadows to create the "card" effect */
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 0.3s;
+}
+
+.card .cardDescription {
+	text-align: left;
+	overflow: hidden;
+}
+
+.card .cardImage {
+	width: 100%;
+	height: auto;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+	padding: 2px 16px;
+}
+
+/******************************************* End Card *******************************************************************/
