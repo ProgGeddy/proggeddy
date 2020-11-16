@@ -247,7 +247,7 @@ function getArtistInfo(artistInfo) {
 					 if (relations[i].type === 'image') {
 						 imageUrl = relations[i].url.resource;
 						 if (imageUrl.startsWith('https://commons.wikimedia.org/wiki/File:')) {
-							 const filename = image_url.substring(imageUrl.lastIndexOf('/') + 1);
+							 const filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
 							 imageUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + filename;
 						 }
 						 //success(imageUrl);
