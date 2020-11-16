@@ -28,7 +28,7 @@ function checkForEnterOnMusicSearch(event) {
 // Validates that the user has provided text to search. And then queries API's for results. 
 function validateLastFMForm() {
 	// Grab the user's input.
-	var userInput = $('#userInput').val();
+	let userInput = $('#userInput').val();
 	
 	// Check to see if the user's input is null.
 	if (userInput==null || userInput=="") {
@@ -59,7 +59,7 @@ function validateLastFMForm() {
 
 // Prepare the urls to query LastFM for Artist/Album/Track. 
 function getLastFMInfo(userInput) {
-	var url;
+	let url;
 	url = 'http://ws.audioscrobbler.com/2.0/?method=artist.search&artist='+userInput+'&api_key='+_lastFMKey+'&limit='+_lastFMSearchLimit+'&format=json';
 	getLastFMJSON(url, successArtistCallBack);
 	
@@ -83,11 +83,9 @@ function getLastFMJSON(url, successCallBack) {
 
 // This function is called if the AJAX request for Artist information from last.fm succeeds. 
 function successArtistCallBack(artist) {
-	// Local variables.
-	var artistName;
-	var artistUrl;
-	var artistImage;
-	var numberOfArtistsReturned;
+	let artistName;
+	let artistUrl;
+	let numberOfArtistsReturned;
 	
 	// Get the number of artists returned.
 	numberOfArtistsReturned = artist.results.artistmatches.artist.length;
@@ -117,7 +115,7 @@ function successArtistCallBack(artist) {
 			$('<button/>', {
 				text: artistName,
 				id: artistName,
-				click: artistButtonClicked
+				click: artistButtonClicked,
 			}).appendTo($('#lastFMArtistResults'));
 			
 			$('#lastFMArtistResults').append(' <br> ');
@@ -131,12 +129,10 @@ function successArtistCallBack(artist) {
 
 // This function is called if the AJAX request for Album information from last.fm succeeds. 
 function successAlbumCallBack(album) {
-	// Local variables.
-	var albumName;
-	var albumUrl;
-	var albumImage;
-	var numberOfAlbumsReturned;
-	var artistName;
+	let albumName;
+	let albumUrl;
+	let numberOfAlbumsReturned;
+	let artistName;
 	
 	// Get the number of artists returned.
 	numberOfAlbumsReturned = album.results.albummatches.album.length;
@@ -182,12 +178,10 @@ function successAlbumCallBack(album) {
 
 // This function is called if the AJAX request for Track information from last.fm succeeds. 
 function successTrackCallBack(track) {
-	// Local variables.
-	var trackName;
-	var trackUrl;
-	var trackImage;
-	var numberOfTracksReturned;
-	var artistName;
+	let trackName;
+	let trackUrl;
+	let numberOfTracksReturned;
+	let artistName;
 	
 	// Get the number of tracks returned.
 	numberOfTracksReturned = track.results.trackmatches.track.length;
@@ -232,14 +226,39 @@ function successTrackCallBack(track) {
 }
 
 function artistButtonClicked() {
-	var artistName = encodeURIComponent($(this).text());
-	var url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist='+artistName+'&api_key='+_lastFMKey+'&format=json'
+	let artistName = encodeURIComponent($(this).text());
+	let url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist='+artistName+'&api_key='+_lastFMKey+'&format=json'
 	getLastFMJSON(url, getArtistInfo);
 }
 
 function getArtistInfo(artistInfo) {
+	const mbid = artistInfo.artist.mbid;
+	let imageUrl = artistInfo.artist.image[2]['#text'];
+
+	if (mbid) {
+		const url = 'https://musicbrainz.org/ws/2/artist/' + mbid + '?inc=url-rels&fmt=json';
+		 fetch(url)
+			 .then(res => res.json())
+			 .then((out) => {
+				 const relations = out.relations;
+
+				 // Find image relation
+				 for (let i = 0; i < relations.length; i++) {
+					 if (relations[i].type === 'image') {
+						 imageUrl = relations[i].url.resource;
+						 if (imageUrl.startsWith('https://commons.wikimedia.org/wiki/File:')) {
+							 const filename = image_url.substring(imageUrl.lastIndexOf('/') + 1);
+							 imageUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + filename;
+						 }
+						 //success(imageUrl);
+					 }
+				 }
+			 })
+			 .catch(err => { throw console.log(err) });
+	 }
+
 	$(".card").css('visibility', 'visible');
-	$(".cardImage").attr("src", artistInfo.artist.image[2]['#text']);
+	$(".cardImage").attr("src", imageUrl);
 	$('.selectedName').html($('<a href="'+artistInfo.artist.url+'" target="_blank">'+artistInfo.artist.name+'</a>'));
 	$(".cardDescription").text(artistInfo.artist.bio.summary);
 }
