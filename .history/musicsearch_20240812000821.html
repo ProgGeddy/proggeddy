@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+<title>Prog Geddy</title>
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<link rel="shortcut icon" href="#" />
+	
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/validateMusicSearch.js"></script>
+</head>
+
+<body>
+	<!-- Nav bar -->
+	<ul>
+		<li><a href="http://www.proggeddy.com/" target="_blank">Home</a></li>
+		<li><a href="http://www.goodreads.com/user/show/5886579-geddy-israel" target="_blank">Goodreads</a></li>
+		<li><a href="http://www.last.fm/user/Eclisiast" target="_blank">LastFM</a></li>
+		<li><a href="http://steamcommunity.com/profiles/76561198012946856" target="_blank">Steam</a></li>
+		<li><a href="https://www.facebook.com/Eclisiast.the.Gedi" target="_blank">Facebook</a></li>
+		<li><a href="https://twitter.com/Eclisiast" target="_blank">Twitter</a></li>
+	</ul>
+
+	<br><br>
+	
+	<div id="searchMessage"></div>
+	<form id="musicSearch">
+		<label for="userInput"> Music Search: </label>
+		<input type="text" name="userInput" id="userInput">
+		<input type="button" value="Submit" onclick="validateLastFMForm()">
+	</form>
+	Search powered by <a href="http://www.last.fm" target="_blank"><i>Last.fm</i></a>
+	
+	<div id="lastFMDataFormat">
+		<div id="lastFMArtistResults"></div>
+		<div id="lastFMAlbumResults"></div>
+		<div id="lastFMTrackResults"></div>
+	</div>
+	
+	<br>
+	
+	<div class="card">
+		<img class="cardImage" src="" alt="image">
+		<div class="container">
+			<h3><b><div class=selectedName></div></b></h3>
+			<p><div class="cardDescription"></div></p>
+		</div>
+	</div>
+	
+</body>
+</html>
