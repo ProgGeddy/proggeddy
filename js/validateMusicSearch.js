@@ -309,19 +309,36 @@ function getTrackInfo(trackInfo) {
 }
 
 
+// The current or last thing Geddy listened to.
+function getListeningNow() {
+	const url = "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=ProgGeddy&api_key=663a3ee09f7ef3aad14740b3ac162ca0&format=json";
 
+	$.ajax({
+		url:url,
+		type:'GET',
+		dataType: 'jsonp', 
+		success:function(response){
+			listeningNowResponse(response);
+		},
+		async:false
+	});
+}
 
+function listeningNowResponse(response){
+	var track = response.recenttracks.track[0];
 
+	console.log(track)
 
+	if ("@attr" in track && track["@attr"].nowplaying == "true") {
+		$('#song').html($('<a href="'+track.url+'" target="_blank">'+track.name+'</a>'));
+		document.getElementById('band').textContent = track.artist["#text"];
+	}
+	else {
+		$('#song').html($('<a href="'+track.url+'" target="_blank">'+track.name+'</a>'));
+		document.getElementById('band').textContent = track.artist["#text"];
+		document.getElementById('time').textContent = new Date(track.date.uts * 1000); //track.date["#text"];
 
-
-
-
-
-
-
-
-
-
-
-
+		// const unixTimestampInSeconds = track.date.uts; // Example Unix timestamp (in seconds)
+		// const dateObject = new Date(track.date.uts * 1000);
+	}
+}
